@@ -1,9 +1,11 @@
 package com.example.aplicacion_de_gestion_de_pedidos;
 
+import clase.Item;
 import clase.Usuario;
 import clase.Pedido;
 import clase.Sesion;
 import domain.DBConnection;
+import domain.PedidoDAO;
 import domain.PedidoDAOImp;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -19,6 +21,7 @@ import javafx.scene.control.*;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -65,7 +68,7 @@ public class DashboardController implements Initializable {
             return new SimpleStringProperty(date);
         });
         orderUsuarioId.setCellValueFactory((fila) -> {
-            String usuario_id = String.valueOf(fila.getValue().getUsuarioId());
+            String usuario_id = String.valueOf(fila.getValue().getUsuario().getMail());
             return new SimpleStringProperty(usuario_id);
         });
         orderTotal.setCellValueFactory((fila) -> {
@@ -74,9 +77,7 @@ public class DashboardController implements Initializable {
         });
 
         observablePedidos = FXCollections.observableArrayList();
-        PedidoDAOImp dao = new PedidoDAOImp(DBConnection.getConnection());
-        Sesion.setPedidos(dao.loadAll(Sesion.getUsuario().getId()));
-        observablePedidos.addAll(Sesion.getPedidos());
+        observablePedidos.addAll(Sesion.getUsuario().getPedido());
         ordersTable.setItems(observablePedidos);
 
         ordersTable.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
@@ -87,7 +88,7 @@ public class DashboardController implements Initializable {
 
     private void seleccionarPedido(Pedido pedido) {
         Sesion.setFocusedOrder(pedido);
-        Sesion.setItems(pedido.getItems());;
+        Sesion.setItems((ArrayList<Item>) pedido.getItems());;
         MainApplication.loadOrderDetail();
     }
 

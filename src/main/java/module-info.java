@@ -5,6 +5,7 @@ module com.example.aplicacion_de_gestion_de_pedidos {
     requires jakarta.persistence;
     requires java.naming;
     requires org.hibernate.orm.core;
+    requires lombok;
 
     opens images;
     opens clase;
@@ -12,4 +13,5 @@ module com.example.aplicacion_de_gestion_de_pedidos {
     opens com.example.aplicacion_de_gestion_de_pedidos;
 
     exports com.example.aplicacion_de_gestion_de_pedidos;
+    exports domain;
 }

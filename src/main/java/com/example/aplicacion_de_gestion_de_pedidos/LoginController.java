@@ -1,8 +1,10 @@
 package com.example.aplicacion_de_gestion_de_pedidos;
 
+import clase.Pedido;
 import clase.Usuario;
 import clase.Sesion;
 import domain.DBConnection;
+import domain.UsuarioDAO;
 import domain.UsuarioDAOHib;
 import domain.UsuarioDAOImp;
 import javafx.fxml.FXML;
@@ -38,9 +40,13 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        UsuarioDAOHib usuarioDAOHib = new UsuarioDAOHib();
-        Usuario u = usuarioDAOHib.loadUser("user","user1");
-        System.out.println(u);
+//        Pedido p = new Pedido();
+//        p.setUsuario( new Usuario("pepe","pepe"));
+//        System.out.println(p);
+//
+//        UsuarioDAOHib usuarioDAOHib = new UsuarioDAOHib();
+//        Usuario u = usuarioDAOHib.loadUser("user","user");
+//        System.out.println(u);
 
     }
 
@@ -49,7 +55,7 @@ public class LoginController implements Initializable {
         String userMail = userField.getText();
         String userPassword = passField.getText();
 
-        UsuarioDAOImp usuarioLogin = new UsuarioDAOImp(DBConnection.getConnection());
+        UsuarioDAO usuarioLogin = new UsuarioDAOHib();
         try{
             Usuario usuario = usuarioLogin.loadUser(userMail,userPassword);
             Sesion.setUsuario(usuario);

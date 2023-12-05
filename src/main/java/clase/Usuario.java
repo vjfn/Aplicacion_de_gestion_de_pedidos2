@@ -3,6 +3,7 @@ package clase;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contiene la información  del usuario, su ID, nombre, contraseña, mail y un arraylist de sus pedidos.
@@ -18,8 +19,9 @@ public class Usuario {
     private String name;
     private String password;
     private String mail;
-    @Transient
-    private ArrayList<Pedido> pedido;
+
+    @OneToMany( mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Pedido> pedido = new ArrayList<>(0);
 
     public Usuario(Integer id, String name, String password, String mail) {
         this.id = id;
@@ -28,6 +30,8 @@ public class Usuario {
         this.mail = mail;
     }
     public Usuario(String mail, String password)  {
+        this.mail = mail;
+        this.password = password;
         this.pedido = new ArrayList<Pedido>();
     }
 
@@ -63,6 +67,14 @@ public class Usuario {
     }
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public List<Pedido> getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(List<Pedido> pedido) {
+        this.pedido = pedido;
     }
 
     @Override

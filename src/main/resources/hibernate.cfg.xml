@@ -17,6 +17,7 @@
         <property name="show_sql">true</property>
 
         <mapping class="clase.Usuario"/>
+        <mapping class="clase.Pedido"/>
 
     </session-factory>
 

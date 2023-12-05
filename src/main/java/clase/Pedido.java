@@ -1,19 +1,35 @@
 package clase;
 
+import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La clase Pedido contiene la solicitud de productos realizada por un usuario, la fecha de la misma
  * el codigo de los productos, el usuario que realizó el pedido y el total.
  */
+@Entity
+@Table(name="pedido")
 public class Pedido {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String codigo;
     private String date;
+    @Transient
     private Integer usuarioId;
+
+    @ManyToOne
+    @JoinColumn(name="usuario_id")
+    private Usuario usuario;
+
+
     private Integer total;
-    private ArrayList<Item> items = new ArrayList<>();
+
+    @Transient
+    private List<Item> items = new ArrayList<>();
 
     public Pedido(Integer id, String codigo, String date, Integer usuarioId, Integer total, ArrayList<Item> items) {
         this.id = id;
@@ -67,13 +83,22 @@ public class Pedido {
         this.total = total;
     }
 
-    public ArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 
     @Override
     public String toString() {
@@ -82,6 +107,7 @@ public class Pedido {
                 ", codigo='" + codigo + '\'' +
                 ", date='" + date + '\'' +
                 ", usuarioId=" + usuarioId +
+                ", usuario=" + usuario.getMail() +
                 ", total=" + total +
                 ", items=" + items +
                 '}';
